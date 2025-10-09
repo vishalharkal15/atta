@@ -8,6 +8,26 @@ from mtcnn import MTCNN
 from keras_facenet import FaceNet
 from PIL import Image
 import numpy as np
+import bcrypt
+
+ADMIN_PATH = "data/admin.json"
+
+# Create admin file if not exists
+if not os.path.exists(ADMIN_PATH):
+    with open(ADMIN_PATH, "w") as f:
+        # Default password = "admin123"
+        hashed_pw = bcrypt.hashpw("admin123".encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+        json.dump({"password": hashed_pw}, f)
+
+def get_admin_password():
+    with open(ADMIN_PATH, "r") as f:
+        return json.load(f)["password"]
+
+def set_admin_password(new_password):
+    hashed_pw = bcrypt.hashpw(new_password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+    with open(ADMIN_PATH, "w") as f:
+        json.dump({"password": hashed_pw}, f)
+
 
 # ------------------------------
 # Environment & Flask Setup
@@ -114,6 +134,31 @@ def recognize():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+@app.route("/api/verify", methods=["POST"])
+def verify_password():
+    data = request.json
+    input_pw = data.get("password", "")
+
+    stored_hashed_pw = get_admin_password().encode("utf-8")
+    if bcrypt.checkpw(input_pw.encode("utf-8"), stored_hashed_pw):
+        return jsonify({"success": True})
+    else:
+        return jsonify({"success": False}), 401
+    
+@app.route("/api/update-password", methods=["POST"])
+def update_password():
+    data = request.json
+    old_pw = data.get("old_password", "")
+    new_pw = data.get("new_password", "")
+
+    stored_hashed_pw = get_admin_password().encode("utf-8")
+
+    if bcrypt.checkpw(old_pw.encode("utf-8"), stored_hashed_pw):
+        set_admin_password(new_pw)
+        return jsonify({"message": "Password updated successfully!"})
+    else:
+        return jsonify({"error": "Old password is incorrect"}), 401
 
 # ------------------------------
 # Run Flask Server
