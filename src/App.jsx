@@ -8,7 +8,7 @@ import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
   return (
-    <Router>
+    <Router basename="/Automated-Attendance">
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
