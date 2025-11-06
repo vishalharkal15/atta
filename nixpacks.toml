@@ -1,0 +1,10 @@
+[phases.setup]
+nixPkgs = ["python312", "libGL", "glib", "libSM", "libXext", "libXrender"]
+
+[phases.install]
+cmds = ["pip install -r facenet/requirements.txt"]
+
+[phases.build]
+
+[start]
+cmd = "cd facenet && gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 120 app:app"
