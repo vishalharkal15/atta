@@ -1,0 +1,14 @@
+Flask==3.1.2
+flask-cors==6.0.1
+Flask-JWT-Extended==4.7.1
+Flask-Session==0.8.0
+Flask-SQLAlchemy==3.1.1
+mtcnn==1.0.0
+keras==3.11.3
+keras-facenet==0.3.2
+tensorflow-cpu==2.18.0
+scipy==1.14.1
+opencv-python-headless==4.10.0.84
+bcrypt==5.0.0
+numpy==1.26.4
+gunicorn==23.0.0
