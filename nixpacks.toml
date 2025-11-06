@@ -1,10 +1,11 @@
 [phases.setup]
-nixPkgs = ["python312", "python312Packages.pip"]
+nixPkgs = ["python312", "python312Packages.pip", "gcc"]
+aptPkgs = ["libgomp1"]
 
 [phases.install]
-cmds = ["pip install --break-system-packages -r facenet/requirements.txt"]
+cmds = ["pip install --break-system-packages --no-cache-dir -r facenet/requirements.txt"]
 
 [phases.build]
 
 [start]
-cmd = "cd facenet && gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 120 app:app"
+cmd = "cd facenet && gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 300 --worker-class sync --max-requests 100 --max-requests-jitter 10 app:app"
