@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+venv/
+.venv/
+ENV/
+env/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+npm-debug.log
+package-lock.json
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Database (don't copy local DB to container)
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+
+# Deployment files
+.railway/
+railway.json
+nixpacks.toml
+DEPLOYMENT.md
+README.md
+
+# Test files
+tests/
+.pytest_cache/
