@@ -5,8 +5,5 @@ aptPkgs = ["libgomp1"]
 [phases.install]
 cmds = ["pip install --break-system-packages --no-cache-dir -r facenet/requirements.txt"]
 
-[phases.build]
-cmds = ["cp -r facenet/* . && ls -la"]
-
 [start]
-cmd = "gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 300 --worker-class sync app:app"
+cmd = "cd facenet && gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 300 --worker-class sync app:app"
